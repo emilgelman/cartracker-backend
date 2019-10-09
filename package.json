@@ -1,0 +1,26 @@
+{
+  "name": "cartracker-backend",
+  "version": "1.0.0",
+  "description": "Cartracker back end",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js ./src/index.js",
+    "seed": "node ./src/helpers/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emil Gelman <emil.gelman@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "boom": "^7.3.0",
+    "fastify": "^2.3.0",
+    "fastify-gql": "^1.1.0",
+    "fastify-mongodb": "^1.0.1",
+    "fastify-swagger": "^2.4.0",
+    "graphql": "^14.3.0",
+    "mongoose": "^5.5.8"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "nodemon": "^1.19.0"
+  }
+}
