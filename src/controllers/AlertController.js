@@ -1,37 +1,17 @@
-const boom = require('boom');
-const utils = require ('../utils');
-// Get Data Models
-const Alert = require('../models/Alert');
-const Car = require('../models/Car');
-const mongoose = require('mongoose');
+const alertService = require('../services/AlertService');
 
-// Get single alert
-exports.getSingleAlert = async req => {
-	try {
-		const id = utils.getRequestID(req);
-		return await Alert.findById(id);
-	} catch (err) {
-		throw boom.boomify(err);
-	}
+addAlert = async req => {
+	return alertService.addAlert(req);
 };
 
-exports.addAlert = async req => {
-	try {
-		let body = utils.getRequestBody(req);
-		const alert = new Alert(body);
-		return await alert.save();
-	} catch (err) {
-		throw boom.boomify(err)
-	}
+getAlert = async req => {
+	return alertService.getAlert(req);
 };
 
-// Get all cars for single alert
-exports.getCarsForAlert = async req => {
-	try {
-		const id = utils.getRequestID(req);
-		const alert = await Alert.findById(id);
-		return await Car.find({ 'id': {$in: alert.cars} });
-	} catch (err) {
-		throw boom.boomify(err)
-	}
+getAlerts = async (req) => {
+	return alertService.getAlerts(req);
+};
+
+module.exports = {
+	getAlert, getAlerts, addAlert
 };

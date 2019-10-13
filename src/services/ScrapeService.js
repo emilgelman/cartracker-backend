@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const Car = require('../models/Car');
+const boom = require("boom");
 
 const options = {
     method: 'get',
@@ -21,27 +21,25 @@ const options = {
     },
 };
 
-async function scrape(params) {
-    const YAD2_URL = 'https://www.yad2.co.il/api/pre-load/getFeedIndex/vehicles/private-cars?manufacturer=1&price=10000-112112&km=10000--1&hand=-1-2&engineval=1900--1&compact-req=1&forceLdLoad=true';
+async function scrape(alert) {
+    const YAD2_URL = `https://www.yad2.co.il/api/pre-load/getFeedIndex/vehicles/private-cars?manufacturer=${alert.manufacturer}&price=${alert.price}&km=${alert.km}&hand=${alert.hand}&engineval=${alert.engineval}&compact-req=1&forceLdLoad=true`;
+
     let data = await getData(YAD2_URL);
     try {
-
-        return data.feed.feed_items.map(item => new Car(item));
-    }
-    catch (error) {
-        console.log(`Received error when trying to parse: ${error}`);
-        return [];
+        return data.feed.feed_items.map(item => item.id);
+    } catch (error) {
+        throw boom.boomify(err);
     }
 }
 
-async function getData(url) {
+const getData = async (url) => {
     try {
         const response = await fetch(url, options);
         return await response.json();
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 module.exports = {
     scrape

@@ -15,13 +15,3 @@ getUsers = async () => {
 module.exports = {
 	getUser, getUsers, addUser
 };
-
-// // Get single user's alerts
-// exports.getUserAlerts = async req => {
-// 	try {
-// 		const id = utils.getRequestID(req);
-// 		return await Alert.find({ user_id: id });
-// 	} catch (err) {
-// 		throw boom.boomify(err)
-// 	}
-// };
