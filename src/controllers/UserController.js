@@ -1,36 +1,27 @@
-const boom = require('boom');
-const utils = require ('../utils');
+const userService = require('../services/UserService');
 
-
-// Get Data Models
-const User = require('../models/User');
-const Alert = require('../models/Alert');
-
-// Get all users
-exports.getUsers = async () => {
-	try {
-		return await User.find()
-	} catch (err) {
-		throw boom.boomify(err)
-	}
+addUser = async req => {
+	return userService.addUser(req);
 };
 
-// Get single user by ID
-exports.getSingleUser = async req => {
-	try {
-		const id = utils.getRequestID(req);
-		return await User.findById(id)
-	} catch (err) {
-		throw boom.boomify(err)
-	}
+getUser = async req => {
+	return userService.getUser(req);
 };
 
-// Get single user's alerts
-exports.getUserAlerts = async req => {
-	try {
-		const id = utils.getRequestID(req);
-		return await Alert.find({ user_id: id });
-	} catch (err) {
-		throw boom.boomify(err)
-	}
+getUsers = async () => {
+	return userService.getUsers();
 };
+
+module.exports = {
+	getUser, getUsers, addUser
+};
+
+// // Get single user's alerts
+// exports.getUserAlerts = async req => {
+// 	try {
+// 		const id = utils.getRequestID(req);
+// 		return await Alert.find({ user_id: id });
+// 	} catch (err) {
+// 		throw boom.boomify(err)
+// 	}
+// };

@@ -1,1 +1,9 @@
 mongo id is 12 chars
+
+apis
+
+https://www.yad2.co.il/api/item/xnptc2
+
+https://www.yad2.co.il/api/search/options/vehicles/private-cars?fields=manufacturer,model,year,area,ownerID,group_color,engineType,subModel,gearBox&manufacturer=1&model=1468
+
+https://www.yad2.co.il/api/pre-load/getFeedIndex/vehicles/private-cars?manufacturer=1&price=10000-112112&km=10000--1&hand=-1-2&engineval=1900--1&compact-req=1&forceLdLoad=true

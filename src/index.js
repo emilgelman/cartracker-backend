@@ -19,6 +19,10 @@ const routes = require('./routes');
 // Import Swagger Options
 const swagger = require('./config/swagger');
 
+const schedule = require('node-schedule');
+const notificationService = require ('./services/NotificationService');
+
+
 // Register Swagger
 fastify.register(require('fastify-swagger'), swagger.options);
 
@@ -33,6 +37,7 @@ const start = async () => {
 		await fastify.listen(3000, '0.0.0.0');
 		fastify.swagger();
 		fastify.log.info(`server listening on ${fastify.server.address().port}`)
+		schedule.scheduleJob('* * * * *', notificationService.run);
 	} catch (err) {
 		fastify.log.error(err);
 		process.exit(1)
