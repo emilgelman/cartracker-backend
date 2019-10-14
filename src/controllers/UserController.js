@@ -43,6 +43,12 @@ function _delete(req, res, next) {
 		.catch(err => next(err));
 }
 
+function getAlerts(req, res, next) {
+	userService.getAlerts(req.params.username)
+		.then(alerts => alerts ? res.json(alerts) : res.sendStatus(404))
+		.catch(err => next(err));
+}
+
 module.exports = {
-	authenticate, register, getAll, getCurrent, getById, update, _delete
+	authenticate, register, getAll, getCurrent, getById, update, _delete, getAlerts
 };

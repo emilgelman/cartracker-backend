@@ -34,6 +34,14 @@ updateAlert = async (id, alertParam) => {
     }
 };
 
+deleteAlert = async (id) => {
+    try {
+        await Alert.findByIdAndRemove(id);
+    } catch (err) {
+        throw boom.boomify(err)
+    }
+};
+
 module.exports = {
-    getAlert, getAlerts, addAlert, updateAlert
+    getAlert, getAlerts, addAlert, updateAlert, deleteAlert
 };

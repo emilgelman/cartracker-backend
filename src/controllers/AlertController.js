@@ -18,6 +18,12 @@ getAlerts = async (req, res, next) => {
         .catch(err => next(err));
 };
 
+deleteAlert = async (req, res, next) => {
+    alertService.deleteAlert(req.params.id)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+};
+
 module.exports = {
-	getAlert, getAlerts, addAlert
+	getAlert, getAlerts, addAlert, deleteAlert
 };

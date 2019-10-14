@@ -2,14 +2,15 @@ const config = require('../config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-
+const Alert = require('../models/Alert');
 module.exports = {
     authenticate,
     getAll,
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    getAlerts
 };
 
 async function authenticate({ username, password }) {
@@ -30,6 +31,10 @@ async function getAll() {
 
 async function getById(id) {
     return await User.findById(id).select('-hash');
+}
+
+async function getAlerts(username) {
+    return await Alert.find({ username: username });
 }
 
 async function create(userParam) {
