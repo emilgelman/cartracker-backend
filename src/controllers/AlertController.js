@@ -1,15 +1,21 @@
 const alertService = require('../services/AlertService');
 
-addAlert = async req => {
-	return alertService.addAlert(req);
+addAlert = async (req, res, next)=> {
+	alertService.addAlert(req.body)
+        .then(() => res.json({"msg" : "Alert was added successfully"}))
+        .catch(err => next(err));
 };
 
-getAlert = async req => {
-	return alertService.getAlert(req);
+getAlert = async (req, res, next) => {
+    alertService.getAlert(req.params.id)
+        .then(alert => alert ? res.json(alert) : res.sendStatus(404))
+        .catch(err => next(err));
 };
 
-getAlerts = async (req) => {
-	return alertService.getAlerts(req);
+getAlerts = async (req, res, next) => {
+    alertService.getAlerts()
+        .then(alerts => res.json(alerts))
+        .catch(err => next(err));
 };
 
 module.exports = {
