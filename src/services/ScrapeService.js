@@ -32,6 +32,19 @@ async function scrape(alert) {
     }
 }
 
+async function getModels() {
+    const MANUFACTURERS_URL = 'https://www.yad2.co.il/api/search/options/vehicles/private-cars?fields=manufacturer,model';
+    let manufacturers = await getData(MANUFACTURERS_URL);
+    var result = await JSON.parse(JSON.stringify(manufacturers.manufacturer));
+    for (var i = 0; i < manufacturers.manufacturer.length; i++) {
+        let manufacturer = manufacturers.manufacturer[i];
+        const models = await getData(`${MANUFACTURERS_URL}&manufacturer=${manufacturer.value}`)
+        console.log(models);
+        result[i].models = models;
+    }
+    return result;
+}
+
 const getData = async (url) => {
     try {
         const response = await fetch(url, options);
@@ -42,5 +55,5 @@ const getData = async (url) => {
 };
 
 module.exports = {
-    scrape
+    scrape, getModels
 };

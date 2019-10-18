@@ -1,5 +1,5 @@
 const userService = require('../services/UserService');
-
+const scrapeService = require('../services/ScrapeService');
 
 function authenticate(req, res, next) {
 	userService.authenticate(req.body)
@@ -49,6 +49,12 @@ function getAlerts(req, res, next) {
 		.catch(err => next(err));
 }
 
+function getModels(req, res, next) {
+	scrapeService.getModels()
+		.then(models => models ? res.json(models) : res.sendStatus(404))
+		.catch(err => next(err));
+}
+
 module.exports = {
-	authenticate, register, getAll, getCurrent, getById, update, _delete, getAlerts
+	authenticate, register, getAll, getCurrent, getById, update, _delete, getAlerts, getModels
 };

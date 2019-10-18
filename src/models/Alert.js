@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const alertSchema = new mongoose.Schema({
 	username: String,
 	manufacturer : String,
+	model : String,
 	price : String,
 	km : String,
 	hand : String,

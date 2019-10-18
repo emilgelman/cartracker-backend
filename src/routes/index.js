@@ -19,7 +19,6 @@ router.get('/api/users/:id', userController.getById);
 router.put('/api/users/:id', userController.update);
 router.delete('/api/users/:id', userController._delete);
 router.get('/api/users/:username/alerts', userController.getAlerts);
-
-
+router.get('/api/models', userController.getModels);
 module.exports = router;
 
