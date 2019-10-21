@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const boom = require("boom");
+const Car = require("../models/Car");
 
 const options = {
     method: 'get',
@@ -21,12 +22,28 @@ const options = {
     },
 };
 
+function buildCar(item) {
+    let c = new Car(item);
+    try {
+
+        c.submodel = item.row_2;
+        c.engineval = item.row_4[2].value;
+        c.hand = item.row_4[1].value;
+        c.km = item.row_3[2];
+    }
+    catch (err)
+    {
+        console.log(err);
+    }
+    return c;
+}
+
 async function scrape(alert) {
-    const YAD2_URL = `https://www.yad2.co.il/api/pre-load/getFeedIndex/vehicles/private-cars?manufacturer=${alert.manufacturer}&price=${alert.price}&km=${alert.km}&hand=${alert.hand}&engineval=${alert.engineval}&compact-req=1&forceLdLoad=true`;
+    const YAD2_URL = encodeURI(`https://www.yad2.co.il/api/pre-load/getFeedIndex/vehicles/private-cars?manufacturer=${alert.manufacturer}&model=${alert.model}&price=${alert.price}&km=${alert.km}&hand=${alert.hand}&engineval=${alert.engineval}&compact-req=1&forceLdLoad=true`);
 
     let data = await getData(YAD2_URL);
     try {
-        return data.feed.feed_items.map(item => item.id);
+        return data.feed.feed_items.map(item => buildCar(item));
     } catch (error) {
         throw boom.boomify(err);
     }

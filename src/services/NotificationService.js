@@ -8,7 +8,7 @@ async function run() {
     alerts.forEach(async alert => {
         let scrapedCars = await scrapeService.scrape(alert);
         let existingCars = alert.cars;
-        let newCars = scrapedCars.filter(newCar => !existingCars.some(existingCar => existingCar === newCar))
+        let newCars = scrapedCars.filter(newCar => !existingCars.some(existingCar => existingCar.id === newCar.id))
             .filter(car => car !== undefined);
         if (newCars && newCars.length) {
             notifyUser(alert, newCars)
@@ -24,11 +24,12 @@ async function run() {
 const updateExistingCars = async (alert, newCars) => {
     let newAlert = alert;
     newAlert.cars = newCars;
-    alertService.updateAlert({"id": alert.id, "params": newAlert});
+    alertService.updateAlert(alert.id,newAlert);
     console.log(`Updated alert ${alert.id} with new ${newCars.length} cars`);
 };
 const notifyUser = async (alert, newCars) => {
-    let user = await userService.getUser({"id": alert.user_id});
+    let user = await userService.getByUsername(alert.username);
+    mailService.sendMail(user, alert, newCars);
     console.log(`Going to send mail to user ${user.email} with ${newCars.length} cars`);
 };
 

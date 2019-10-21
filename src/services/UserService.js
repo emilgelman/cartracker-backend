@@ -10,7 +10,8 @@ module.exports = {
     create,
     update,
     delete: _delete,
-    getAlerts
+    getAlerts,
+    getByUsername
 };
 
 async function authenticate({ username, password }) {
@@ -31,6 +32,10 @@ async function getAll() {
 
 async function getById(id) {
     return await User.findById(id).select('-hash');
+}
+
+async function getByUsername(username) {
+    return await User.findOne({ username: username}).select('-hash');
 }
 
 async function getAlerts(username) {
