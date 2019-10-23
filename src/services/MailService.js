@@ -1,7 +1,13 @@
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey('');
-
-
+sgMail.setApiKey('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');
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'cartracker.alerts@gmail.com',
+        pass: 'rdj333xxx'
+    }
+});
 const sendMail = async (user, alert, newCars) => {
     let html = `<html><head><style>table.blueTable {
   border: 1px solid #1C6EA4;
@@ -68,19 +74,17 @@ table.blueTable tfoot .links a{
     html += table;
     html += '</body></html>';
     let message = {
-        from: 'cartracker@gmail.com', // Sender address
+        from: 'cartracker.alerts@gmail.com', // Sender address
         to: user.email,         // List of recipients
         subject: `${alert.manufacturer_text} - ${alert.model_text} | נוספו רכבים חדשים`,// Subject line
         html: html
     };
-    try {
-
-        sgMail.send(message);
-    }
-    catch (err)
-    {
-        console.log(err);
-    }
+    transporter.sendMail(message, function (err, info) {
+        if(err)
+            console.log(err);
+        else
+            console.log(info);
+    });
     // transport.sendMail(message, function(err, info) {
     //     if (err) {
     //         console.log(err)

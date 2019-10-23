@@ -25,7 +25,7 @@ const start = async () => {
             .connect(process.env.MONGODB_URI || config.mongo,{ useCreateIndex: true, useNewUrlParser: true } )
             .then(() => console.log('MongoDB connected...'))
             .catch(err => console.log(err));
-        schedule.scheduleJob('* * * * *', notificationService.run);
+        schedule.scheduleJob('0 * * * *', notificationService.run);
     } catch (err) {
         console.log(err);
         process.exit(1);
