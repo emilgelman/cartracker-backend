@@ -5,7 +5,8 @@ const mailService = require('./MailService');
 
 async function run() {
     const alerts = await alertService.getAlerts();
-    alerts.forEach(async alert => {
+    for (const alert of alerts)
+    {
         let scrapedCars = await scrapeService.scrape(alert);
         let existingCars = alert.cars;
         let newCars = scrapedCars.filter(newCar => !existingCars.some(existingCar => existingCar.id === newCar.id))
@@ -18,12 +19,13 @@ async function run() {
         } else {
             console.log(`No new cars for alert id: ${alert.id}`);
         }
-    });
+    }
 }
 
 const updateExistingCars = async (alert, newCars) => {
     let newAlert = alert;
-    newAlert.cars = newCars;
+    let existingCars = alert.cars;
+    newAlert.cars = existingCars.concat(newCars.filter((item) => existingCars.indexOf(item) < 0));
     alertService.updateAlert(alert.id,newAlert);
     console.log(`Updated alert ${alert.id} with new ${newCars.length} cars`);
 };
